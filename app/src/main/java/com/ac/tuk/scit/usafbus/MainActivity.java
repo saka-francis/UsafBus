@@ -34,21 +34,13 @@ public class MainActivity extends AppCompatActivity {
     BusesAdapter adapter;
     List<Company> companyList;
 
-    private static final String HTTP_JSON_URL = "http://192.168.208.126/android_booking_app/fetch_data.php";
+    private static final String HTTP_JSON_URL = "http://192.168.137.1/android_booking_app/fetch_data.php";
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
-        /**
-         * Showing a ProgressDialog as the buses load
-         */
-        progressDialog = new ProgressDialog(MainActivity.this);
-        progressDialog.setMessage("Please wait");
-        progressDialog.show();
 
 
         recyclerView = findViewById(R.id.recyclerView);
@@ -58,35 +50,46 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.addItemDecoration(decoration);
         recyclerView.setClipToPadding(false);
 
-        getCompany();
+        companyList = new ArrayList<>();
 
-        adapter = new BusesAdapter(companyList, this);
-        recyclerView.setAdapter(adapter);
+        getCompany();
     }
 
     private void getCompany() {
+        /**
+         * Showing a ProgressDialog as the buses load
+         */
+        progressDialog = new ProgressDialog(MainActivity.this);
+        progressDialog.setMessage("Please wait...");
+        progressDialog.show();
 
-
-            StringRequest request = new StringRequest(Request.Method.GET, HTTP_JSON_URL,
+            StringRequest Srequest = new StringRequest(Request.Method.GET,
+                    HTTP_JSON_URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
+                            /**
+                             * hiding the progressDialog once loading is done
+                             */
+                            progressDialog.dismiss();
 
                             try {
-                                JSONArray companies = new JSONArray(response);
-                                int i;
-                                for (i = 0; i < companies.length(); i++) ;
-                                JSONObject companyObjects = companies.getJSONObject(i);
+                                JSONArray array = new JSONArray(response);
 
-                                String image = companyObjects.getString("image");
-                                String name = companyObjects.getString("name");
+                                for (int i = 0; i < array.length(); i++) {
+                                    ;
+                                    JSONObject companyObjects = array.getJSONObject(i);
 
-                                Company company = new Company(image, name);
-                                companyList.add(company);
-                                /**
-                                 * hiding the progressDialog once loading is done
-                                 */
-                                progressDialog.dismiss();
+                                    Company company = new Company(
+                                            companyObjects.getString("image"),
+                                            companyObjects.getString("name")
+                                    );
+
+                                    companyList.add(company);
+                                }
+                                adapter = new BusesAdapter(companyList, getApplicationContext());
+                                recyclerView.setAdapter(adapter);
+
 
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -97,15 +100,17 @@ public class MainActivity extends AppCompatActivity {
                     new Response.ErrorListener() {
                         @Override
                         public void onErrorResponse(VolleyError error) {
-
-                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                             /**
-                             * hiding the progressDialog
+                             * hiding the progressDialog once loading is done
                              */
                             progressDialog.dismiss();
+
+                            Toast.makeText(MainActivity.this, error.getMessage(), Toast.LENGTH_LONG).show();
                         }
                     });
-            Volley.newRequestQueue(this).add(request);
+
+            RequestQueue requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(Srequest);
 
         }
 
