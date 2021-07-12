@@ -1,22 +1,19 @@
 package com.ac.tuk.scit.usafbus;
 
-import androidx.annotation.NonNull;
+import android.app.ProgressDialog;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
-import android.os.Bundle;
-import android.widget.ImageView;
-import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -33,9 +30,10 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     BusesAdapter adapter;
     List<Company> companyList;
+    public static final String TAG="MainActivity";
 
-    private static final String HTTP_JSON_URL = "http://192.168.137.1/android_booking_app/fetch_data.php";
-
+    private static final String HTTP_JSON_URL = "http://192.168.137.169/Android_booking_app/fetch_data.php";
+    private RequestQueue requestQueue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         progressDialog.setMessage("Please wait...");
         progressDialog.show();
 
-            StringRequest Srequest = new StringRequest(Request.Method.GET,
+            StringRequest SRequest = new StringRequest(Request.Method.GET,
                     HTTP_JSON_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -72,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
                              * hiding the progressDialog once loading is done
                              */
                             progressDialog.dismiss();
-
+                            Log.i(TAG, "onResponse: "+response.toString());
                             try {
                                 JSONArray array = new JSONArray(response);
 
@@ -109,8 +107,8 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
 
-            RequestQueue requestQueue = Volley.newRequestQueue(this);
-            requestQueue.add(Srequest);
+            requestQueue = Volley.newRequestQueue(this);
+            requestQueue.add(SRequest);
 
         }
 
