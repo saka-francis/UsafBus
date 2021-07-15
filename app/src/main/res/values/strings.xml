@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">usafBus</string>
+    <string name="hello_world">Hello world</string>
+    <string name="company_logo">company logo</string>
+    <string name="request_received_successfully_general" />
+    <string name="no_internet_connection" />
 </resources>

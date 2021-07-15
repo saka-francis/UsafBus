@@ -12,44 +12,56 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 
+import java.util.Collections;
 import java.util.List;
 
 public class BusesAdapter extends RecyclerView.Adapter<BusesAdapter.ViewHolder> {
 
      Context context;
-    List<Company> CompanyList;
+     List<Company> bus;
 
-    public BusesAdapter(List<Company> companyList, Context context) {
-
-        //super();
-        this.CompanyList = companyList;
-        this.context = context;
+    static {
+        Collections.emptyList();
     }
+
+    BusesAdapter current;
+
+    // create constructor to initialize context and data sent from MainActivity
+    public BusesAdapter(Context context, List<Company> bus) {
+        this.context = context;
+        this.bus = bus;
+        this.current = current;
+    }
+
+
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home, parent, false);
-        return new ViewHolder(view);
+        ViewHolder holder = new ViewHolder(view);
+        return  holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Company companyList = CompanyList.get(position);
+
+        ViewHolder viewHolder = (ViewHolder) holder;
+        Company current = bus.get(position);
 
         Glide.with(context)
-                .load(companyList.getImage())
+                .load("http://192.168.208.126/Android_booking_app/fetch_data.php" + current.image)
                 .placeholder(R.drawable.ic_launcher_foreground)
-                .into(holder.image);
+                .into(viewHolder.image);
 
-        holder.name.setText(companyList.getName());
+        viewHolder.name.setText(current.name);
 
 
     }
 
     @Override
     public int getItemCount() {
-        return CompanyList.size();
+        return bus.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
