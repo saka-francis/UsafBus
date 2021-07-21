@@ -2,65 +2,60 @@ package com.ac.tuk.scit.usafbus;
 
 public class Company {
 
-  public String image;
-  public String name;
+  public String Image;
+  public String Name;
+  public String PickStation;
+  public String Destination;
+  public Double RoutPrice;
 
 
- // public String pickStation, destination;
-  //public   Double price;
+  public Company(String image, String name) {
+    Image = image;
+    Name = name;
+    //PickStation = pickStation;
+    //Destination = destination;
+    //RoutPrice = routPrice;
+  }
 
-/*
-    public Company() {
+  public String getImage() {
+    return Image;
+  }
 
-    }
+  public void setImage(String image) {
+    Image = image;
+  }
 
-    public Company(String image, String name) {
-        this.image = image;
-        this.name = name;
-    }
+  public String getName() {
+    return Name;
+  }
 
-    public String getImage() {
-        return image;
-    }
+  public void setName(String name) {
+    Name = name;
+  }
+/**
+  public String getPickStation() {
+    return PickStation;
+  }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
+  public void setPickStation(String pickStation) {
+    PickStation = pickStation;
+  }
 
-    public String getName() {
-        return name;
-    }
+  public String getDestination() {
+    return Destination;
+  }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+  public void setDestination(String destination) {
+    Destination = destination;
+  }
 
- */
+  public Double getRoutPrice() {
+    return RoutPrice;
+  }
 
+  public void setRoutPrice(Double routPrice) {
+    RoutPrice = routPrice;
+  }
+*/
 
-/*
-    public String getPickStation() {
-        return pickStation;
-    }
-
-    public void setPickStation(String pickStation) {
-        this.pickStation = pickStation;
-    }
-
-    public String getDestination() {
-        return destination;
-    }
-
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-    */
 }

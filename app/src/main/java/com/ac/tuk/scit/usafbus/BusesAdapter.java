@@ -17,62 +17,64 @@ import java.util.List;
 
 public class BusesAdapter extends RecyclerView.Adapter<BusesAdapter.ViewHolder> {
 
-     Context context;
-     List<Company> bus;
 
-    static {
-        Collections.emptyList();
-    }
+    private final Context context;
+    List<Company> Buses = Collections.emptyList();
+    Company current;
+    int currentPos = 0;
 
-    BusesAdapter current;
 
     // create constructor to initialize context and data sent from MainActivity
-    public BusesAdapter(Context context, List<Company> bus) {
+    public BusesAdapter(Context context, List<Company> Bus) {
         this.context = context;
-        this.bus = bus;
-        this.current = current;
+        LayoutInflater inflater = LayoutInflater.from(context);
+        this.Buses = Collections.unmodifiableList(Buses);
+
     }
 
 
-
+    // Inflate the layout when viewHolder created
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home, parent, false);
-        ViewHolder holder = new ViewHolder(view);
-        return  holder;
+        return new ViewHolder(view);
     }
 
+    //bind the data
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        ViewHolder viewHolder = (ViewHolder) holder;
-        Company current = bus.get(position);
+        // Get current position of item in recyclerview to bind data and assign values from list
+        Company current;
+        current = Buses.get(position);
+
+        holder.busCompanyName.setText(current.Name);
 
         Glide.with(context)
-                .load("http://192.168.208.126/Android_booking_app/fetch_data.php" + current.image)
+                .load("http://192.168.137.1//Android_booking_app/fetch_data.php" + current.Image)
                 .placeholder(R.drawable.ic_launcher_foreground)
-                .into(viewHolder.image);
-
-        viewHolder.name.setText(current.name);
-
-
+                .into(holder.busCompanyImage);
     }
 
+
+    // return total item from List
     @Override
     public int getItemCount() {
-        return bus.size();
+        return Buses.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        ImageView image;
-        TextView name;
+        ImageView busCompanyImage;
+        TextView busCompanyName;
 
+        // create constructor to get widget reference
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            image=itemView.findViewById(R.id.image);
-            name=itemView.findViewById(R.id.name);
+            busCompanyImage = itemView.findViewById(R.id.busCompanyLogo);
+            busCompanyName = itemView.findViewById(R.id.busCompanyName);
         }
     }
 }
+
