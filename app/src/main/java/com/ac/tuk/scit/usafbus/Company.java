@@ -9,13 +9,6 @@ public class Company {
   public Double RoutPrice;
 
 
-  public Company(String image, String name) {
-    Image = image;
-    Name = name;
-    //PickStation = pickStation;
-    //Destination = destination;
-    //RoutPrice = routPrice;
-  }
 
   public String getImage() {
     return Image;
@@ -32,7 +25,7 @@ public class Company {
   public void setName(String name) {
     Name = name;
   }
-/**
+/*
   public String getPickStation() {
     return PickStation;
   }
